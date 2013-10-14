@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import main.core.service.InventoryEventHandler;
 import main.core.service.InventoryService;
 import main.events.InventoryReadEvent;
 import main.events.InventoryRequestEvent;
@@ -17,7 +18,7 @@ public class InventoryTests {
 	public void getDealerInventoryTest() {
 		InventoryPersistenceService persistence = new InventoryPersistenceEventHandler(new InventoryInMemoryRepsoitory());
 		InventoryRequestEvent requestEvent = new InventoryRequestEvent("56113");
-		InventoryService service = new InventoryService(persistence);
+		InventoryService service = new InventoryEventHandler(persistence);
 		InventoryReadEvent readEvent = service.getDealerInventory(requestEvent);
 		
 		assertNotNull(persistence);
@@ -25,7 +26,7 @@ public class InventoryTests {
 		assertNotNull(service);
 		assertNotNull(readEvent);
 		
-		long expected = 1;
+		long expected = 2;
 		long actual = readEvent.getInventorySize();
 		assertEquals(expected , actual);
 	}
